@@ -1,0 +1,109 @@
+<style type="text/css">
+  .otherMouse {
+    position: fixed;
+  }
+</style>
+<div id="container" class="row">
+  <h2>ioMessage</h2>
+  <div id="enter" class="card-panel col s12 m8 l6 push-l3 push-m2">
+  <h5>Enter username to join chat</h5>
+    <form>
+      <input id="username" type="text" name="username">
+      <input id="login" type="submit" name="" value="Enter">
+    </form>
+  </div>
+</div>
+
+<div id="messenger" class="hidden">
+  <h2>ioMessage</h2>
+  <div class="row">
+    <div class="col s12 m8 l6 push-l3 push-m2">
+      <ul id="messages">
+      </ul>
+    </div>
+  </div>
+  <div class="message-bar">
+    <input id="message-input" type=text autocomplete="off" placeholder="Enter Message">
+    <input id="send-message" type="button" value="Send">
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', init);
+  
+  var socket = io();
+
+  function init() {
+    var login = document.getElementById('login');
+    login.addEventListener('click', handleLogin);
+
+    document.getElementById("message-input").addEventListener("keyup", function(event) {
+      event.preventDefault();
+      if (event.keyCode == 13) {
+       document.getElementById("send-message").click();
+      }
+    });
+  }
+
+  function handleLogin(event) {
+    event.preventDefault();
+
+    document.getElementById('container').classList.add('hidden');
+    document.getElementById('messenger').classList.remove('hidden');
+
+    startChat();
+  }
+
+  function startChat() {
+    socket.on('chat message', onMessage);
+    var button = document.getElementById('send-message');
+    console.log(button);
+    button.addEventListener('click', sendMessage);
+
+    document.addEventListener('mousemove', function(evt) {
+      console.log(evt.x, evt.y);
+      socket.emit('mouse', {x:evt.x, y:evt.y});
+    });
+
+    socket.on('other mouse', function(data) {
+      console.log(data);
+      var otherMouse = document.getElementById(data.id);
+      if (!otherMouse) {
+        otherMouse = document.body.appendChild(document.createElement('div'));
+        otherMouse.id = data.id;
+        otherMouse.textContent = data.id;
+        otherMouse.classList.add('otherMouse');
+      }
+      otherMouse.style.top = data.y + "px";
+      otherMouse.style.left = data.x + "px";
+    });
+  }
+
+  function sendMessage(evt) {
+    console.log('sending message', evt);
+    socket.emit('chat message', document.querySelector('#message-input').value, document.getElementById('username').value);
+    document.querySelector('#message-input').value = '';
+    
+  }
+
+  function onMessage(msg, usr) {
+    var post = msg;
+    var li = document.createElement('li');
+    li.classList.add('message'); 
+    if (usr === document.getElementById('username').value) {
+      li.classList.add('user'); 
+      post = msg;
+    } else {
+      var name = document.createElement('li');
+      name.classList.add('name');
+      document.querySelector('#messages').appendChild(name).textContent = usr;
+    }
+
+    document.querySelector('#messages').appendChild(li).textContent = post;
+
+    var messagebox = document.getElementById('messages');
+    messagebox.scrollTop = messagebox.scrollHeight;
+  }
+
+</script>
