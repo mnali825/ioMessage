@@ -11,6 +11,7 @@ a basic chat room app inspired by imessage build on expressjs with socketio
 
 In Terminal
 - cd ioMessage
+- npm install
 - node app.js
 - Enter username and enjoy!
 
