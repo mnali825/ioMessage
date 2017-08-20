@@ -17,4 +17,4 @@ In Terminal
 
 ### TODO
 - add list to show who's online
-- allow users to create their owm rooms
+- allow users to create their own rooms
