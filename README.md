@@ -19,15 +19,5 @@ In Terminal
 - add list to show who's online
 - allow users to create their own rooms
 
-
-
-![GitHub Logo](public/images/iomessage.png)
-Format: ![Web Image](url)
-
-
-
-![GitHub Logo](public/images/iomessage-mobile.png)
-Format: ![Mobile Image](url)
-
-
-
+![Web Image](public/images/iomessage-mobile.png)
+![Mobile](public/images/iomessage.png)
