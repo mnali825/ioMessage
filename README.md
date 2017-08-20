@@ -21,13 +21,13 @@ In Terminal
 
 
 
-![GitHub Logo](/images/iomessage.png)
-Format: ![Alt Text](url)
+![GitHub Logo](public/images/iomessage.png)
+Format: ![Web Image](url)
 
 
 
-![GitHub Logo](/images/iomessage-mobile.png)
-Format: ![Alt Text](url)
+![GitHub Logo](public/images/iomessage-mobile.png)
+Format: ![Mobile Image](url)
 
 
 
